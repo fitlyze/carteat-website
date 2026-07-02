@@ -1,6 +1,5 @@
-import { act, fireEvent, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { fireEvent, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
 
 import { FeaturedSlider } from '@/components/recipe/FeaturedSlider';
@@ -55,66 +54,45 @@ describe('selectFeaturedSlides', () => {
 describe('FeaturedSlider', () => {
   const slides = [r('alpha', { title: 'Alpha' }), r('beta', { title: 'Beta' })];
 
-  const activeLabel = (container: HTMLElement) =>
-    container
-      .querySelector('[aria-roledescription="slide"][aria-hidden="false"]')
-      ?.getAttribute('aria-label');
-
-  afterEach(() => {
-    vi.useRealTimers();
-    vi.unstubAllGlobals();
-  });
-
   it('renders nothing when there are no slides', () => {
     const { container } = renderWithIntl(<FeaturedSlider slides={[]} />);
     expect(container).toBeEmptyDOMElement();
   });
 
-  it('auto-advances to the next slide after 3s', () => {
-    vi.useFakeTimers();
+  it('renders every slide reachable, with carousel semantics', () => {
     const { container } = renderWithIntl(<FeaturedSlider slides={slides} />);
-    expect(activeLabel(container)).toBe('1 / 2');
-    act(() => {
-      vi.advanceTimersByTime(3000);
-    });
-    expect(activeLabel(container)).toBe('2 / 2');
+    const section = screen.getByRole('region', { name: 'Featured recipes' });
+    expect(section).toHaveAttribute('aria-roledescription', 'carousel');
+    const items = container.querySelectorAll('[aria-roledescription="slide"]');
+    expect(items).toHaveLength(2);
+    expect(items[0]).toHaveAttribute('aria-label', '1 / 2');
+    expect(items[1]).toHaveAttribute('aria-label', '2 / 2');
+    // parallax strip keeps every slide in the tree — nothing hidden
+    expect(
+      container.querySelector('[aria-roledescription="slide"][aria-hidden="true"]'),
+    ).toBeNull();
   });
 
-  it('pauses auto-advance while hovered', () => {
-    vi.useFakeTimers();
-    const { container } = renderWithIntl(<FeaturedSlider slides={slides} />);
-    fireEvent.mouseEnter(screen.getByRole('region'));
-    act(() => {
-      vi.advanceTimersByTime(6000);
-    });
-    expect(activeLabel(container)).toBe('1 / 2');
+  it('renders a CTA link per slide', () => {
+    renderWithIntl(<FeaturedSlider slides={slides} />);
+    const links = screen.getAllByRole('link', { name: 'View recipe' });
+    expect(links).toHaveLength(2);
+    expect((links[0]?.getAttribute('href') as string)).toContain('/recipes/alpha');
+    expect((links[1]?.getAttribute('href') as string)).toContain('/recipes/beta');
   });
 
-  it('does not auto-advance under prefers-reduced-motion', () => {
-    vi.useFakeTimers();
-    vi.stubGlobal(
-      'matchMedia',
-      vi.fn().mockReturnValue({ matches: true, addEventListener: vi.fn() }),
-    );
-    const { container } = renderWithIntl(<FeaturedSlider slides={slides} />);
-    act(() => {
-      vi.advanceTimersByTime(9000);
-    });
-    expect(activeLabel(container)).toBe('1 / 2');
+  it('renders no dot or arrow controls', () => {
+    renderWithIntl(<FeaturedSlider slides={slides} />);
+    expect(screen.queryByRole('button')).toBeNull();
   });
 
-  it('jumps to a slide via its dot control', async () => {
-    const user = userEvent.setup();
-    const { container } = renderWithIntl(<FeaturedSlider slides={slides} />);
-    await user.click(screen.getByRole('button', { name: 'Go to slide 2' }));
-    expect(activeLabel(container)).toBe('2 / 2');
-  });
-
-  it('wraps to the last slide when going previous from the first', async () => {
-    const user = userEvent.setup();
-    const { container } = renderWithIntl(<FeaturedSlider slides={slides} />);
-    await user.click(screen.getByRole('button', { name: 'Previous slide' }));
-    expect(activeLabel(container)).toBe('2 / 2');
+  it('exposes a keyboard-focusable track that accepts arrow keys', () => {
+    renderWithIntl(<FeaturedSlider slides={slides} />);
+    const track = screen.getByRole('group', { name: 'Featured recipes' });
+    expect(track).toHaveAttribute('tabindex', '0');
+    // jsdom has no layout, so this only asserts the handlers don't throw
+    fireEvent.keyDown(track, { key: 'ArrowRight' });
+    fireEvent.keyDown(track, { key: 'ArrowLeft' });
   });
 
   it('has no serious a11y violations', async () => {
