@@ -48,3 +48,6 @@ npm-debug.log*
 
 # claude code — commit settings.json (team), ignore personal local overrides
 .claude/settings.local.json
+
+# SDD scratch
+.superpowers/
