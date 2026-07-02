@@ -36,10 +36,7 @@
     "quickHealthy": "Quick & healthy",
     "highProtein": "High protein",
     "featuredRegion": "Featured recipes",
-    "viewAll": "View all {group}",
-    "goToSlide": "Go to slide {n}",
-    "prevSlide": "Previous slide",
-    "nextSlide": "Next slide"
+    "viewAll": "View all {group}"
   },
   "recipe": {
     "ingredients": "Ingredients",

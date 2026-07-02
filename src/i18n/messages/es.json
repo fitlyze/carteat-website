@@ -36,10 +36,7 @@
     "quickHealthy": "Rápidas y saludables",
     "highProtein": "Altas en proteína",
     "featuredRegion": "Recetas destacadas",
-    "viewAll": "Ver todo: {group}",
-    "goToSlide": "Ir a la diapositiva {n}",
-    "prevSlide": "Diapositiva anterior",
-    "nextSlide": "Diapositiva siguiente"
+    "viewAll": "Ver todo: {group}"
   },
   "recipe": {
     "ingredients": "Ingredientes",
