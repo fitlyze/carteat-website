@@ -18,12 +18,12 @@ describe('selectFeaturedSlides', () => {
       r('b', { featured: true }),
       r('c', { featured: true }),
     ];
-    expect(selectFeaturedSlides(recipes).map((s) => s.slug)).toEqual(['b', 'c']);
+    expect(selectFeaturedSlides(recipes).map((s) => s.slug)).toEqual(['b', 'c', 'a']);
   });
 
-  it('pads with latest non-featured when fewer than two are featured', () => {
-    const recipes = [r('a', { featured: true }), r('b'), r('c')];
-    expect(selectFeaturedSlides(recipes).map((s) => s.slug)).toEqual(['a', 'b']);
+  it('pads with latest non-featured recipes up to the cap', () => {
+    const recipes = [r('a', { featured: true }), r('b'), r('c'), r('d')];
+    expect(selectFeaturedSlides(recipes, 3).map((s) => s.slug)).toEqual(['a', 'b', 'c']);
   });
 
   it('never duplicates a recipe already taken as featured', () => {

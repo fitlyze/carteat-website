@@ -124,17 +124,15 @@ function relatedScore(base: Recipe, other: Recipe): number {
 /**
  * Pick the recipes that fill the home featured slider. Input is expected to be
  * locale-scoped and newest-first (order is preserved). Featured recipes come
- * first; if fewer than two exist, the rail is padded with the latest
- * non-featured recipes so the slider never shows a single lonely slide. Pure —
- * never mutates the input.
+ * first; the rail is then padded with the latest non-featured recipes until
+ * `cap` slides are collected (or recipes run out). Pure — never mutates the
+ * input.
  */
-export function selectFeaturedSlides(recipes: Recipe[], cap = 5): Recipe[] {
+export function selectFeaturedSlides(recipes: Recipe[], cap = 10): Recipe[] {
   const slides = recipes.filter((r) => r.featured);
-  if (slides.length < 2) {
-    for (const r of recipes) {
-      if (slides.length >= 2) break;
-      if (!slides.some((s) => s.slug === r.slug)) slides.push(r);
-    }
+  for (const r of recipes) {
+    if (slides.length >= cap) break;
+    if (!slides.some((s) => s.slug === r.slug)) slides.push(r);
   }
   return slides.slice(0, cap);
 }
