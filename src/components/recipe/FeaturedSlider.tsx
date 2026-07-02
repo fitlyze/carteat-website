@@ -64,6 +64,7 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
       dragStartCurrent: 0,
       hovered: false,
       focused: false,
+      interacted: false,
       reduced: mq?.matches ?? false,
       raf: null as number | null,
     };
@@ -80,8 +81,7 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
         }
         const scrolled = -state.last;
         const inView =
-          scrolled + state.viewport >= card.left &&
-          scrolled < card.left + card.width;
+          scrolled + state.viewport >= card.left && scrolled < card.left + card.width;
         if (!inView) return;
         const x = parallaxOffset(
           scrolled,
@@ -99,15 +99,14 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
     };
 
     const tick = () => {
-      state.last = state.reduced
-        ? state.current
-        : lerp(state.last, state.current, EASE);
+      state.last = state.reduced ? state.current : lerp(state.last, state.current, EASE);
       if (Math.abs(state.current - state.last) < SETTLE_EPSILON_PX) {
         state.last = state.current;
       }
 
       const drifting =
         !state.reduced &&
+        !state.interacted &&
         !state.dragging &&
         !state.hovered &&
         !state.focused &&
@@ -115,11 +114,7 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
         state.maxScroll > 0 &&
         state.current > -state.maxScroll;
       if (drifting) {
-        state.current = clamp(
-          state.current - DRIFT_PX_PER_FRAME,
-          -state.maxScroll,
-          0,
-        );
+        state.current = clamp(state.current - DRIFT_PX_PER_FRAME, -state.maxScroll, 0);
       }
 
       applyFrame();
@@ -159,6 +154,7 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
     const onPointerDown = (e: PointerEvent) => {
       // stop native image drag / text selection without breaking clicks
       if (e.pointerType === 'mouse') e.preventDefault();
+      state.interacted = true;
       state.dragging = true;
       state.dragged = false;
       state.dragStartX = e.clientX;
@@ -186,6 +182,7 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
     };
 
     const onClickCapture = (e: MouseEvent) => {
+      if (e.detail === 0) return;
       if (!state.dragged) return;
       e.preventDefault();
       e.stopPropagation();
@@ -194,9 +191,9 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
 
     const onWheel = (e: WheelEvent) => {
       // only claim horizontal gestures; vertical wheel keeps scrolling the page
-      if (state.maxScroll === 0 || Math.abs(e.deltaX) <= Math.abs(e.deltaY))
-        return;
+      if (state.maxScroll === 0 || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
       e.preventDefault();
+      state.interacted = true;
       state.current = clamp(state.current - e.deltaX, -state.maxScroll, 0);
       wake();
     };
@@ -204,6 +201,7 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
       e.preventDefault();
+      state.interacted = true;
       const step = e.key === 'ArrowLeft' ? cardStep() : -cardStep();
       state.current = clamp(state.current + step, -state.maxScroll, 0);
       wake();
@@ -217,11 +215,7 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
       if (!card) return;
       const scrolled = -state.current;
       if (card.left < scrolled) {
-        state.current = clamp(
-          -card.left + FOCUS_SCROLL_PADDING_PX,
-          -state.maxScroll,
-          0,
-        );
+        state.current = clamp(-card.left + FOCUS_SCROLL_PADDING_PX, -state.maxScroll, 0);
       } else if (card.left + card.width > scrolled + state.viewport) {
         state.current = clamp(
           state.viewport - card.left - card.width - FOCUS_SCROLL_PADDING_PX,
@@ -292,7 +286,7 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
       ref={sectionRef}
       aria-roledescription="carousel"
       aria-label={t('home.featuredRegion')}
-      className="relative h-[60vh] min-h-[420px] w-full overflow-hidden"
+      className="relative h-[60vh] min-h-[420px] w-full overflow-clip"
     >
       <h1 className="sr-only">{t('home.title')}</h1>
 
@@ -302,7 +296,7 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
         aria-label={t('home.featuredRegion')}
-        className="flex h-full cursor-grab touch-pan-y items-center gap-4 px-4 select-none will-change-transform data-[dragging=true]:cursor-grabbing sm:gap-6 sm:px-6 lg:px-8"
+        className="flex h-full cursor-grab touch-pan-y items-center gap-4 px-4 will-change-transform select-none data-[dragging=true]:cursor-grabbing sm:gap-6 sm:px-6 lg:px-8"
       >
         {slides.map((recipe, i) => (
           <div
@@ -320,6 +314,7 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
                 imageRefs.current[i] = el;
               }}
               className="absolute inset-0 will-change-transform"
+              style={{ transform: `scale(${IMAGE_SCALE})` }}
             >
               <Image
                 src={recipe.heroImage}
@@ -340,9 +335,7 @@ export function FeaturedSlider({ slides }: FeaturedSliderProps) {
                 {recipe.title}
               </h2>
               <Button variant="accent" className="mt-4" asChild>
-                <Link href={`/recipes/${recipe.slug}`}>
-                  {t('common.viewRecipe')}
-                </Link>
+                <Link href={`/recipes/${recipe.slug}`}>{t('common.viewRecipe')}</Link>
               </Button>
             </div>
           </div>

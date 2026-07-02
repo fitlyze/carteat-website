@@ -33,9 +33,7 @@ describe('selectFeaturedSlides', () => {
   });
 
   it('caps the number of slides', () => {
-    const recipes = Array.from({ length: 8 }, (_, i) =>
-      r(`f${i}`, { featured: true }),
-    );
+    const recipes = Array.from({ length: 8 }, (_, i) => r(`f${i}`, { featured: true }));
     expect(selectFeaturedSlides(recipes, 5)).toHaveLength(5);
   });
 
@@ -77,8 +75,8 @@ describe('FeaturedSlider', () => {
     renderWithIntl(<FeaturedSlider slides={slides} />);
     const links = screen.getAllByRole('link', { name: 'View recipe' });
     expect(links).toHaveLength(2);
-    expect((links[0]?.getAttribute('href') as string)).toContain('/recipes/alpha');
-    expect((links[1]?.getAttribute('href') as string)).toContain('/recipes/beta');
+    expect(links[0]).toHaveAttribute('href', expect.stringContaining('/recipes/alpha'));
+    expect(links[1]).toHaveAttribute('href', expect.stringContaining('/recipes/beta'));
   });
 
   it('renders no dot or arrow controls', () => {

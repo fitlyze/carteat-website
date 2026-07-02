@@ -1,6 +1,5 @@
 /** Linear interpolation from `a` toward `b` by factor `n` in [0, 1]. */
-export const lerp = (a: number, b: number, n: number): number =>
-  (1 - n) * a + n * b;
+export const lerp = (a: number, b: number, n: number): number => (1 - n) * a + n * b;
 
 /** Clamps `value` into [min, max]. */
 export const clamp = (value: number, min: number, max: number): number =>
@@ -17,6 +16,7 @@ export const scrollProgress = (last: number, maxScroll: number): number =>
  * Horizontal parallax offset for a card's image. Progress runs 0 → 1 while
  * the card crosses the viewport (entering right edge → leaving left edge);
  * the image translates from −maxShift to 0 over that crossing.
+ * Assumes a real card and viewport (max > min); callers gate on in-view bounds, which excludes the degenerate zero-width case.
  */
 export const parallaxOffset = (
   scrolled: number,
