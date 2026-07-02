@@ -1,0 +1,50 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/install-state.gz
+
+# next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+
+# velite (generated content)
+/.velite
+
+# pagefind (generated search index)
+/public/pagefind
+
+# testing
+/coverage
+/playwright-report
+/test-results
+/.nyc_output
+
+# env files (real secrets — never commit; .env.example IS committed)
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# sentry
+.sentryclirc
+
+# logs / os / editor
+*.log
+npm-debug.log*
+.DS_Store
+.idea
+*.swp
+
+# claude code — commit settings.json (team), ignore personal local overrides
+.claude/settings.local.json
