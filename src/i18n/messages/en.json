@@ -1,0 +1,186 @@
+{
+  "common": {
+    "brand": "Basil & Terracotta",
+    "skipToContent": "Skip to content",
+    "search": "Search",
+    "viewRecipe": "View recipe",
+    "loading": "Loading",
+    "clearFilters": "Clear filters",
+    "clearAll": "Clear all",
+    "apply": "Apply",
+    "close": "Close",
+    "menu": "Menu",
+    "retry": "Try again"
+  },
+  "nav": {
+    "home": "Home",
+    "recipes": "Recipes",
+    "cuisines": "Cuisines",
+    "search": "Search"
+  },
+  "theme": {
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
+  },
+  "locale": {
+    "switchLanguage": "Change language",
+    "english": "English",
+    "spanish": "Español"
+  },
+  "home": {
+    "title": "Healthy recipes for every cuisine",
+    "subtitle": "Fresh, fast, and full of flavor.",
+    "featured": "Featured",
+    "browseCuisines": "Browse by cuisine",
+    "latest": "Latest recipes",
+    "quickHealthy": "Quick & healthy",
+    "highProtein": "High protein",
+    "featuredRegion": "Featured recipes",
+    "viewAll": "View all {group}",
+    "goToSlide": "Go to slide {n}",
+    "prevSlide": "Previous slide",
+    "nextSlide": "Next slide"
+  },
+  "recipe": {
+    "ingredients": "Ingredients",
+    "steps": "Steps",
+    "nutrition": "Nutrition",
+    "nutritionPerServing": "Nutrition (per serving)",
+    "servings": "Servings",
+    "prepTime": "Prep",
+    "cookTime": "Cook",
+    "totalTime": "Total",
+    "difficulty": "Difficulty",
+    "calories": "Calories",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fat": "Fat",
+    "fiber": "Fiber",
+    "sugar": "Sugar",
+    "sodium": "Sodium",
+    "estimates": "Values are estimates.",
+    "relatedTitle": "You might also like",
+    "notTranslatedTitle": "Not yet translated",
+    "notTranslatedBody": "This recipe isn't available in your language yet — showing the English version.",
+    "increaseServings": "Increase servings",
+    "decreaseServings": "Decrease servings"
+  },
+  "filters": {
+    "title": "Filters",
+    "cuisine": "Cuisine",
+    "diet": "Diet",
+    "mealType": "Meal type",
+    "maxTime": "Max total time",
+    "difficulty": "Difficulty",
+    "tags": "Tags",
+    "minutes": "{minutes} min",
+    "resultCount": "{count, plural, =0 {No recipes} one {# recipe} other {# recipes}}",
+    "loadMore": "Load more",
+    "showing": "Showing {shown} of {total}"
+  },
+  "sort": {
+    "label": "Sort by",
+    "newest": "Newest",
+    "quickest": "Quickest",
+    "rating": "Highest rated"
+  },
+  "search": {
+    "title": "Search recipes",
+    "placeholder": "Search recipes, ingredients, tags…",
+    "noResults": "No results for “{query}”",
+    "noResultsHint": "Try a different term or browse all recipes.",
+    "resultsFor": "Results for “{query}”"
+  },
+  "rating": {
+    "label": "Rating",
+    "average": "{avg} out of 5",
+    "count": "{count, plural, =0 {No ratings yet} one {# rating} other {# ratings}}",
+    "noRatings": "No ratings yet",
+    "rateThis": "Rate this recipe",
+    "stars": "{count, plural, one {# star} other {# stars}}",
+    "thanks": "Thanks for rating!",
+    "submitError": "Couldn't save your rating. Please try again."
+  },
+  "comments": {
+    "title": "Comments",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "comment": "Comment",
+    "commentPlaceholder": "Share your thoughts…",
+    "submit": "Post comment",
+    "pending": "Thanks! Your comment is awaiting review.",
+    "empty": "Be the first to comment.",
+    "rateLimited": "You're commenting too quickly. Please wait a moment.",
+    "error": "Couldn't post your comment. Please try again.",
+    "nameError": "Name must be 2–50 characters.",
+    "bodyError": "Comment must be 10–2000 characters."
+  },
+  "footer": {
+    "tagline": "Wholesome recipes from every corner of the table.",
+    "categories": "Categories",
+    "language": "Language",
+    "social": "Social",
+    "estimates": "Nutrition values are estimates.",
+    "privacy": "Privacy",
+    "copyright": "© {year} Basil & Terracotta. All rights reserved."
+  },
+  "breadcrumb": {
+    "label": "Breadcrumb",
+    "home": "Home",
+    "recipes": "Recipes",
+    "cuisines": "Cuisines"
+  },
+  "states": {
+    "errorTitle": "Something went wrong",
+    "errorBody": "We couldn't load this page. Please try again.",
+    "notFoundTitle": "This page is off the menu",
+    "notFoundBody": "We couldn't find what you were looking for.",
+    "backHome": "Back to home",
+    "noRecipesTitle": "No recipes here yet",
+    "noRecipesBody": "Try adjusting your filters or browse another cuisine.",
+    "offline": "You appear to be offline."
+  },
+  "cuisine": {
+    "thai": "Thai",
+    "italian": "Italian",
+    "mexican": "Mexican",
+    "indian": "Indian",
+    "japanese": "Japanese",
+    "mediterranean": "Mediterranean",
+    "american": "American",
+    "chinese": "Chinese",
+    "french": "French",
+    "middle-eastern": "Middle Eastern",
+    "korean": "Korean",
+    "vietnamese": "Vietnamese",
+    "greek": "Greek",
+    "spanish": "Spanish"
+  },
+  "diet": {
+    "vegetarian": "Vegetarian",
+    "vegan": "Vegan",
+    "gluten-free": "Gluten-free",
+    "dairy-free": "Dairy-free",
+    "keto": "Keto",
+    "paleo": "Paleo",
+    "low-carb": "Low-carb",
+    "high-protein": "High-protein",
+    "nut-free": "Nut-free",
+    "pescatarian": "Pescatarian"
+  },
+  "mealType": {
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "snack": "Snack",
+    "dessert": "Dessert",
+    "appetizer": "Appetizer",
+    "side": "Side",
+    "drink": "Drink"
+  },
+  "difficulty": {
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard"
+  }
+}

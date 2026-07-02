@@ -1,0 +1,323 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+/* Dark mode driven by next-themes `attribute="data-theme"` (design §12). */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/**
+ * Expose semantic tokens as Tailwind utilities (design §8.2). `inline` makes
+ * utilities emit `var(--token)` directly so they swap with the theme. Utilities
+ * resolve: bg-surface, text-fg, text-fg-muted, border-border, bg-primary,
+ * text-accent, rounded-md/lg/full, shadow-sm/md/lg, font-display/sans, etc.
+ */
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-bg-muted: var(--color-bg-muted);
+  --color-surface: var(--color-surface);
+  --color-surface-hover: var(--color-surface-hover);
+  --color-fg: var(--color-fg);
+  --color-fg-muted: var(--color-fg-muted);
+  --color-fg-subtle: var(--color-fg-subtle);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-primary-fg: var(--color-primary-fg);
+  --color-primary-subtle: var(--color-primary-subtle);
+  --color-on-primary-subtle: var(--color-on-primary-subtle);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-fg: var(--color-accent-fg);
+  --color-star: var(--color-star);
+  --color-ring: var(--color-ring);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-danger: var(--color-danger);
+  --color-danger-fg: var(--color-danger-fg);
+  --color-info: var(--color-info);
+
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-full: var(--radius-full);
+
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+
+  --ease-out: var(--ease-out);
+  --ease-in-out: var(--ease-in-out);
+  --ease-spring: var(--ease-spring);
+
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-base: var(--text-base);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+  --text-4xl: var(--text-4xl);
+  --text-5xl: var(--text-5xl);
+  --text-6xl: var(--text-6xl);
+
+  --leading-tight: var(--leading-tight);
+  --leading-snug: var(--leading-snug);
+  --leading-normal: var(--leading-normal);
+  --leading-relaxed: var(--leading-relaxed);
+
+  --tracking-tight: var(--tracking-tight);
+  --tracking-normal: var(--tracking-normal);
+  --tracking-wide: var(--tracking-wide);
+
+  --z-index-base: var(--z-base);
+  --z-index-sticky: var(--z-sticky);
+  --z-index-dropdown: var(--z-dropdown);
+  --z-index-overlay: var(--z-overlay);
+  --z-index-modal: var(--z-modal);
+  --z-index-popover: var(--z-popover);
+  --z-index-toast: var(--z-toast);
+}
+
+/* ─── Base layer (design §0–§3, §11) ───────────────────────────────────── */
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-bg); /* cream — never pure white */
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    font-optical-sizing: auto;
+  }
+
+  /* Visible focus on every interactive element (§11). */
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Tabular numerals utility for nutrition figures / timers (§2.1). */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Search match highlight (Pagefind excerpts wrap matches in <mark>). */
+  mark {
+    background-color: var(--color-primary-subtle);
+    color: inherit;
+    border-radius: var(--radius-xs);
+    padding: 0 0.1em;
+  }
+}
+
+@layer components {
+  /* Responsive page container + gutters (§3.3). */
+  .container-page {
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--container-page);
+    padding-inline: 1rem;
+  }
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: 1.5rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .container-page {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  /* Horizontal scroll rails — hide the scrollbar (cuisine chips, §9.4). */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Skeleton shimmer (§9.13) — static under reduced-motion via the rule below. */
+  @keyframes shimmer {
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  .skeleton {
+    background-color: var(--color-bg-muted);
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--color-surface) 65%, transparent),
+      transparent
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: shimmer 1.2s ease-in-out infinite;
+  }
+
+  /* Top navigation progress (NavigationProgress island). Indeterminate sweep;
+     a static full-width bar under reduced-motion (the global rule zeroes the
+     animation, which would park the bar off-screen). */
+  @keyframes nav-progress-slide {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(200%);
+    }
+  }
+  .nav-progress-bar {
+    width: 60%;
+    box-shadow: 0 0 8px 1px color-mix(in srgb, var(--color-primary) 60%, transparent);
+    animation: nav-progress-slide 1.1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-progress-bar {
+      width: 100%;
+      animation: none;
+    }
+  }
+
+  /* Dialog / Sheet motion (§9.12). Reduced-motion neutralizes durations below. */
+  .dlg-content {
+    transform: translate(-50%, -50%);
+  }
+  @keyframes overlay-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes overlay-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+  @keyframes dialog-out {
+    from {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.98);
+    }
+  }
+  @keyframes sheet-in {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  @keyframes sheet-out {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+  .dlg-overlay[data-state='open'] {
+    animation: overlay-in var(--duration-base) var(--ease-out);
+  }
+  .dlg-overlay[data-state='closed'] {
+    animation: overlay-out var(--duration-fast) var(--ease-out);
+  }
+  .dlg-content[data-state='open'] {
+    animation: dialog-in var(--duration-base) var(--ease-out);
+  }
+  .dlg-content[data-state='closed'] {
+    animation: dialog-out var(--duration-fast) var(--ease-out);
+  }
+  .sheet-content[data-state='open'] {
+    animation: sheet-in var(--duration-base) var(--ease-out);
+  }
+  .sheet-content[data-state='closed'] {
+    animation: sheet-out var(--duration-fast) var(--ease-out);
+  }
+
+  /* Skip-to-content link (§11) — visible only when focused. */
+  .skip-link {
+    position: fixed;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: var(--z-toast);
+    transform: translateY(-150%);
+    background-color: var(--color-surface);
+    color: var(--color-fg);
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+}
+
+/* ─── Reduced motion (§5, §11) — mandatory ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 120ms !important; /* opacity fades ≤120ms kept */
+    scroll-behavior: auto !important;
+  }
+  /* No transforms/translate/parallax under reduced motion. */
+  .motion-safe-transform {
+    transform: none !important;
+  }
+}
