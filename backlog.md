@@ -1,4 +1,4 @@
-# Backlog — Health Recipe Website ("Basil & Terracotta")
+# Backlog — Health Recipe Website ("Foodlyze")
 
 > **Purpose.** This is the single, ordered list of work to take the site from 0% to 100% (production launch). It is written to be executed by Claude Code, story by story, top to bottom. Each story is a self-contained unit with explicit, testable acceptance criteria.
 >

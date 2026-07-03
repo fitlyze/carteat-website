@@ -1,6 +1,6 @@
 {
   "common": {
-    "brand": "Basil & Terracotta",
+    "brand": "Foodlyze",
     "skipToContent": "Skip to content",
     "search": "Search",
     "viewRecipe": "View recipe",
@@ -119,7 +119,7 @@
     "social": "Social",
     "estimates": "Nutrition values are estimates.",
     "privacy": "Privacy",
-    "copyright": "© {year} Basil & Terracotta. All rights reserved."
+    "copyright": "© {year} Foodlyze. All rights reserved."
   },
   "breadcrumb": {
     "label": "Breadcrumb",

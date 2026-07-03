@@ -1,4 +1,3 @@
-import { Leaf } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
 import { Link } from '@/i18n/navigation';
@@ -6,6 +5,7 @@ import { listCuisines } from '@/lib/content';
 import type { Locale } from '@/schemas/recipe';
 
 import { LocaleSwitcher } from './LocaleSwitcher';
+import { Logo } from './Logo';
 
 export async function Footer({ locale }: { locale: Locale }) {
   const t = await getTranslations();
@@ -17,7 +17,7 @@ export async function Footer({ locale }: { locale: Locale }) {
       <div className="container-page grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4">
         <div className="max-w-xs">
           <div className="flex items-center gap-2 font-display text-lg font-semibold text-fg">
-            <Leaf aria-hidden className="size-5 text-primary" />
+            <Logo className="size-5" />
             {t('common.brand')}
           </div>
           <p className="mt-3 text-sm text-fg-muted">{t('footer.tagline')}</p>

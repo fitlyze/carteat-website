@@ -1,5 +1,5 @@
 {
-  "name": "health-recipe-website",
+  "name": "foodlyze",
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@9.15.0",
@@ -7,7 +7,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "content:build": "velite build --strict",
     "build": "velite build --strict && next build && pnpm run postbuild",
     "postbuild": "node scripts/pagefind.mjs",

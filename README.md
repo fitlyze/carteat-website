@@ -1,4 +1,4 @@
-# Basil & Terracotta — Health Recipe Website
+# Foodlyze — Health Recipe Website
 
 Production frontend for publishing health recipes across all cuisines. Static MDX
 content + a thin serverless layer for ratings & comments.

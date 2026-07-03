@@ -1,6 +1,6 @@
 'use client';
 
-import { Leaf, Menu, Search } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
@@ -17,6 +17,7 @@ import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils/cn';
 
 import { LocaleSwitcher } from './LocaleSwitcher';
+import { Logo } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
 
 const navItems = [
@@ -47,7 +48,7 @@ export function Header() {
           href="/"
           className="flex items-center gap-2 font-display text-xl font-semibold text-fg"
         >
-          <Leaf aria-hidden className="size-6 text-primary" />
+          <Logo className="size-6" />
           {t('common.brand')}
         </Link>
 
