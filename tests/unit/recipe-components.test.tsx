@@ -3,27 +3,12 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
 
-import { RatingWidget } from '@/components/engagement/RatingWidget';
 import { IngredientList } from '@/components/recipe/IngredientList';
 import { NutritionTable } from '@/components/recipe/NutritionTable';
 import { StepList } from '@/components/recipe/StepList';
 import type { Ingredient, Nutrition } from '@/schemas/recipe';
 
 import { renderWithIntl } from '../test-utils';
-
-describe('RatingWidget', () => {
-  it('shows "No ratings yet" when count is 0', () => {
-    renderWithIntl(<RatingWidget avg={0} count={0} />);
-    expect(screen.getByText('No ratings yet')).toBeInTheDocument();
-  });
-
-  it('shows average and count when rated', () => {
-    renderWithIntl(<RatingWidget avg={4.6} count={128} />);
-    expect(screen.getByText('4.6')).toBeInTheDocument();
-    expect(screen.getByText('(128)')).toBeInTheDocument();
-    expect(screen.getByLabelText('4.6 out of 5')).toBeInTheDocument();
-  });
-});
 
 describe('NutritionTable', () => {
   const nutrition: Nutrition = {
@@ -67,11 +52,6 @@ describe('domain component a11y (jest-axe)', () => {
     const { container } = renderWithIntl(
       <NutritionTable nutrition={nutrition} calories={420} locale="en" />,
     );
-    expect(await axe(container)).toHaveNoViolations();
-  });
-
-  it('RatingWidget has no serious violations', async () => {
-    const { container } = renderWithIntl(<RatingWidget avg={4.6} count={128} />);
     expect(await axe(container)).toHaveNoViolations();
   });
 

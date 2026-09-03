@@ -1,6 +1,6 @@
 # src/lib/ — Helpers (framework-light, testable)
 
-Subfolders: `content/`, `search/`, `seo/`, `db/`, `utils/`. Keep these as pure, strongly-typed units where possible. UI and route handlers depend on `lib/`, never the reverse.
+Subfolders: `content/`, `search/`, `seo/`, `utils/`. Keep these as pure, strongly-typed units where possible. UI and route handlers depend on `lib/`, never the reverse.
 
 ## content/
 
@@ -12,11 +12,7 @@ Pagefind index access (lazy, client-side). Pagefind is a **post-build step** (pl
 
 ## seo/
 
-Pure builders: Recipe JSON-LD (`schema.org/Recipe`: name, image, author, times, recipeYield, recipeIngredient, recipeInstructions, nutrition, aggregateRating, recipeCuisine, keywords), breadcrumb JSON-LD, and metadata helpers. Input = typed recipe → output = schema object. **Include `aggregateRating` only when `count > 0`.** Must have unit tests.
-
-## db/
-
-`supabase.ts` (server client w/ service role), `upstash.ts` (ratelimit), `ratings.ts`, `comments.ts` (queries used by route handlers). **Server-only — add `import 'server-only'`** at the top so a client import fails the build. All secrets via `@/env`. Aggregate ratings here; never return raw rows/PII.
+Pure builders: Recipe JSON-LD (`schema.org/Recipe`: name, image, author, times, recipeYield, recipeIngredient, recipeInstructions, nutrition, recipeCuisine, keywords), breadcrumb JSON-LD, and metadata helpers. Input = typed recipe → output = schema object. **Never emit `aggregateRating`** — there are no ratings. Must have unit tests.
 
 ## utils/
 
@@ -25,5 +21,5 @@ Pure helpers: `cn()` (class merge), `format.ts` (time/servings/numbers/dates via
 ## Rules
 
 - Pure functions, explicit I/O, no hidden globals. Validate inputs crossing a boundary with Zod (`@/schemas`).
-- Server-only modules (`db/`, anything using secrets) must guard with `import 'server-only'`.
+- Server-only modules (anything using secrets) must guard with `import 'server-only'`.
 - `utils/` + `seo/` builders require unit tests (coverage gate ≥80% on `lib/`).

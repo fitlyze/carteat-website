@@ -74,7 +74,7 @@ export default async function RecipesPage({
   const maxMinutes = typeof sp.maxTime === 'string' ? Number(sp.maxTime) : undefined;
   const sortRaw = typeof sp.sort === 'string' ? sp.sort : 'newest';
   const sort = (
-    ['newest', 'quickest', 'rating'].includes(sortRaw) ? sortRaw : 'newest'
+    ['newest', 'quickest'].includes(sortRaw) ? sortRaw : 'newest'
   ) as SortKey;
 
   const recipes = listRecipes({

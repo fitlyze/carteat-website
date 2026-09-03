@@ -7,7 +7,7 @@ import type { Recipe } from '#velite';
  * import attributes). `src/lib/content/index.ts` binds these to the real data.
  */
 
-export type SortKey = 'newest' | 'quickest' | 'rating';
+export type SortKey = 'newest' | 'quickest';
 
 export interface RecipeFilters {
   cuisine?: Cuisine[];
@@ -17,9 +17,6 @@ export interface RecipeFilters {
   tags?: string[];
   maxMinutes?: number;
 }
-
-/** Aggregate rating per recipe slug, used to sort by "highest rated". */
-export type RatingMap = Record<string, number>;
 
 export interface ResolvedRecipe {
   recipe: Recipe;
@@ -57,22 +54,11 @@ export function filterRecipes(recipes: Recipe[], filters: RecipeFilters): Recipe
   return recipes.filter((r) => matchesFilters(r, filters));
 }
 
-export function sortRecipes(
-  recipes: Recipe[],
-  sort: SortKey,
-  ratings?: RatingMap,
-): Recipe[] {
+export function sortRecipes(recipes: Recipe[], sort: SortKey): Recipe[] {
   const copy = [...recipes];
   switch (sort) {
     case 'quickest':
       return copy.sort((a, b) => a.totalMinutes - b.totalMinutes);
-    case 'rating':
-      return copy.sort((a, b) => {
-        const ra = ratings?.[a.slug] ?? 0;
-        const rb = ratings?.[b.slug] ?? 0;
-        if (rb !== ra) return rb - ra;
-        return dateDesc(a, b);
-      });
     case 'newest':
     default:
       return copy.sort(dateDesc);

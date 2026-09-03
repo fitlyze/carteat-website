@@ -1,11 +1,12 @@
 # Foodlyze — Health Recipe Website
 
-Production frontend for publishing health recipes across all cuisines. Static MDX
-content + a thin serverless layer for ratings & comments.
+Production frontend for publishing health recipes across all cuisines. Fully
+static: MDX content rendered at build time, no backend and no database.
 
 **Stack:** Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind v4 ·
-Radix + shadcn pattern · Velite (MDX) · next-intl · Pagefind · Supabase · Upstash ·
-TanStack Query · Vitest/Playwright. See [`plan.md`](plan.md) for locked decisions.
+Radix + shadcn pattern · Velite (MDX) · next-intl · Pagefind ·
+Vitest/Playwright. See [`plan.md`](plan.md) for locked decisions (the ratings /
+comments layer in §7 and §18 was dropped — the site ships no UGC).
 
 ## Requirements
 
@@ -30,10 +31,7 @@ A missing required var fails the build. See [`.env.example`](.env.example) and
 | Var                                                          | Scope  | Purpose                                   |
 | ------------------------------------------------------------ | ------ | ----------------------------------------- |
 | `NEXT_PUBLIC_SITE_URL`                                       | client | canonical base URL (sitemap, OG, JSON-LD) |
-| `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` | client | Supabase (RLS-protected)                  |
 | `NEXT_PUBLIC_SENTRY_DSN`                                     | client | client error monitoring                   |
-| `SUPABASE_SERVICE_ROLE_KEY`                                  | server | UGC reads/upserts (bypasses RLS)          |
-| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN`        | server | rate limiting                             |
 | `SENTRY_DSN`                                                 | server | server error monitoring                   |
 | `SENTRY_AUTH_TOKEN`                                          | CI     | source-map upload (CI only)               |
 

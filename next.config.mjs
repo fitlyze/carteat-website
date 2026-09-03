@@ -20,8 +20,6 @@ const isProd = process.env.NODE_ENV === 'production';
 // Security headers (plan §12, backlog E0-S6). CSP allows only required origins.
 const connectSrc = [
   "'self'",
-  'https://*.supabase.co',
-  'https://*.upstash.io',
   'https://*.sentry.io',
   'https://*.ingest.sentry.io',
   'https://vitals.vercel-insights.com',

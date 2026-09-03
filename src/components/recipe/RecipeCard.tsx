@@ -2,7 +2,6 @@ import { Clock } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
-import { RatingWidget } from '@/components/engagement/RatingWidget';
 import { Badge } from '@/components/ui/Badge';
 import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils/cn';
@@ -13,7 +12,6 @@ import type { Recipe } from '@/types';
 export interface RecipeCardProps {
   recipe: Recipe;
   locale: Locale;
-  rating?: { avg: number; count: number };
   priority?: boolean;
   className?: string;
 }
@@ -21,7 +19,6 @@ export interface RecipeCardProps {
 export function RecipeCard({
   recipe,
   locale,
-  rating,
   priority = false,
   className,
 }: RecipeCardProps) {
@@ -63,12 +60,7 @@ export function RecipeCard({
           <span>{t(`difficulty.${recipe.difficulty}`)}</span>
         </div>
 
-        <div className="mt-3 flex items-center justify-between gap-2">
-          <RatingWidget
-            avg={rating?.avg ?? 0}
-            count={rating?.count ?? 0}
-            size="compact"
-          />
+        <div className="mt-3 flex items-center justify-end gap-2">
           <div className="flex flex-wrap justify-end gap-1">
             {recipe.diet.slice(0, 2).map((d) => (
               <Badge key={d} variant="tonal">

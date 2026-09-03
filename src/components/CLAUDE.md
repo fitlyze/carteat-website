@@ -9,7 +9,7 @@ Three tiers (plan §5): `ui/` primitives → `recipe/ discovery/ engagement/` do
 - **Primitives (`ui/`) wrap Radix** (shadcn pattern): accessible, unstyled, token-styled, `forwardRef`, accept + merge `className` via `cn()` (`lib/utils`), expose variants. Build `Button, Input, Card, Badge, Dialog, Tabs, Tooltip, Skeleton` to design §9.1–9.13.
 - **Compose, don't duplicate.** Domain/layout components are built from `ui/` primitives — never re-implement a Button/Dialog/Select.
 - **a11y:** focus-visible rings, correct `aria-*`, keyboard support, 44px touch targets, `prefers-reduced-motion`. Images via `next/image` with required `alt` + correct aspect ratio (design §7).
-- **Data:** UGC components use **TanStack Query hooks** hitting `/api/*`. Components **never** import `lib/db` or a Supabase client directly. Static recipe data arrives as props from server pages (sourced via `lib/content`).
+- **Data:** all recipe data arrives as props from server pages (sourced via `lib/content`). There is no client-side data fetching and no API layer.
 - **Strings** via next-intl (props or hooks) — no hard-coded copy.
 - **Files:** `PascalCase.tsx`, one component per file, named export, props interface `XxxProps`.
 - **Color guard:** `accent-500` is **decorative only** (star fill); for accent text/buttons use the `--color-accent` token (= accent-600), which passes AA (design §1.6).

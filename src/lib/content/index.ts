@@ -12,19 +12,12 @@ import {
   selectFeaturedSlides,
   sortRecipes,
   type CuisineCount,
-  type RatingMap,
   type RecipeFilters,
   type ResolvedRecipe,
   type SortKey,
 } from './query';
 
-export type {
-  CuisineCount,
-  RatingMap,
-  RecipeFilters,
-  ResolvedRecipe,
-  SortKey,
-} from './query';
+export type { CuisineCount, RecipeFilters, ResolvedRecipe, SortKey } from './query';
 
 /** The only module the UI uses to read recipes (never reads MDX at runtime). */
 
@@ -40,17 +33,15 @@ export interface ListRecipesOptions {
   locale: Locale;
   filters?: RecipeFilters;
   sort?: SortKey;
-  ratings?: RatingMap;
 }
 
 export function listRecipes({
   locale,
   filters = {},
   sort = 'newest',
-  ratings,
 }: ListRecipesOptions): Recipe[] {
   const scoped = recipesForLocale(allRecipes, locale);
-  return sortRecipes(filterRecipes(scoped, filters), sort, ratings);
+  return sortRecipes(filterRecipes(scoped, filters), sort);
 }
 
 export function getRelated(recipe: Recipe, limit = 4): Recipe[] {

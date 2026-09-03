@@ -4,7 +4,6 @@ import type { Recipe } from '@/types';
 export interface RecipeJsonLdOptions {
   baseUrl: string;
   locale: Locale;
-  rating?: { avg: number; count: number };
 }
 
 /** ISO 8601 duration from minutes, e.g. 90 → "PT1H30M", 45 → "PT45M". */
@@ -18,13 +17,10 @@ function localePrefix(locale: Locale): string {
   return locale === 'en' ? '' : `/${locale}`;
 }
 
-/**
- * schema.org/Recipe JSON-LD (plan §9). `aggregateRating` is included ONLY when
- * count > 0 (Google penalizes empty/fake review markup — plan §7).
- */
+/** schema.org/Recipe JSON-LD (plan §9). */
 export function buildRecipeJsonLd(
   recipe: Recipe,
-  { baseUrl, locale, rating }: RecipeJsonLdOptions,
+  { baseUrl, locale }: RecipeJsonLdOptions,
 ): Record<string, unknown> {
   const url = `${baseUrl}${localePrefix(locale)}/recipes/${recipe.slug}`;
 
@@ -71,14 +67,6 @@ export function buildRecipeJsonLd(
     .filter((d): d is string => Boolean(d));
   if (diets.length > 0) {
     jsonLd.suitableForDiet = diets.map((d) => `https://schema.org/${d}`);
-  }
-
-  if (rating && rating.count > 0) {
-    jsonLd.aggregateRating = {
-      '@type': 'AggregateRating',
-      ratingValue: Number(rating.avg.toFixed(1)),
-      reviewCount: rating.count,
-    };
   }
 
   return jsonLd;

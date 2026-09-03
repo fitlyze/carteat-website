@@ -5,15 +5,11 @@
 - **Hosting:** Vercel. Production deploys on merge to `main`; every PR gets a
   preview deploy automatically (no config needed — Next.js is auto-detected).
 - **Environment variables:** set all vars from [`.env.example`](.env.example) in
-  the Vercel project (Production + Preview). Server secrets
-  (`SUPABASE_SERVICE_ROLE_KEY`, `UPSTASH_*`, `SENTRY_DSN`) must **not** be
-  prefixed `NEXT_PUBLIC_`. `SENTRY_AUTH_TOKEN` is set in CI/Vercel for source-map
-  upload only.
-- **Content revalidation hook (plan §19):** `POST /api/revalidate` with header
-  `x-revalidate-secret: <SUPABASE_SERVICE_ROLE_KEY>` and body `{ "path": "/recipes/<slug>" }`.
-  - Wire a **Vercel deploy hook** (on content push) and a **Supabase database
-    webhook** (on `comments.status → approved`) to call it.
-- **Backups:** enable Supabase daily backups (UGC is not in git).
+  the host project (Production + Preview). `SENTRY_DSN` must **not** be prefixed
+  `NEXT_PUBLIC_`. `SENTRY_AUTH_TOKEN` is set in CI for source-map upload only.
+- **Content updates:** commit MDX and redeploy — there is no revalidation hook
+  and no runtime content source.
+- **Backups:** everything is in git; there is no database to back up.
 
 ## CI (GitHub Actions) — E13-S1/S2/S3
 
@@ -26,7 +22,7 @@
 - **Bundle:** `pnpm analyze` (ANALYZE=true) opens the analyzer. Pagefind is loaded
   via a runtime dynamic import (`/pagefind/pagefind.js`, `webpackIgnore`) so it is
   **never in the main bundle**; the only sizable client chunks are the interactive
-  islands (rating, comment form, filters, search, theme/locale toggles).
+  islands (filters, search, theme/locale toggles).
 
 ## Production verification (plan §15) — E13-S6
 
@@ -36,7 +32,6 @@ Run after the first production deploy:
 - [ ] **SEO:** paste a live recipe URL into Google **Rich Results Test** → valid Recipe + Breadcrumb. `…/sitemap.xml` and `…/robots.txt` resolve. _(JSON-LD + sitemap/robots verified locally.)_
 - [ ] **Search/filter:** Playwright flows green; a shareable filtered URL reproduces state. _(verified — `tests/e2e/flows.spec.ts`.)_
 - [ ] **i18n:** locale switch updates UI + content; `hreflang` present. _(verified — `tests/e2e/i18n.spec.ts`.)_
-- [ ] **Dynamic:** submit a rating → row in Supabase; submit a comment → appears `pending`; rate-limit blocks rapid repeats. _(handlers + limits unit/e2e-tested with mocks; confirm against the live DB.)_
 - [ ] **Quality gates:** typecheck, lint, vitest (coverage ≥ 80% on `lib/`), Playwright, axe (0 serious), Lighthouse — all green in CI.
 
 ## Launch readiness checklist — E13-S7
@@ -44,7 +39,6 @@ Run after the first production deploy:
 - [ ] Security headers live (CSP incl. `wasm-unsafe-eval` for Pagefind, HSTS,
       `X-Content-Type-Options`, `frame-ancestors 'none'`) — verify with curl/securityheaders.com.
 - [ ] Sentry receiving production events (client + server); source maps uploaded.
-- [ ] Supabase backups enabled; RLS verified (anon cannot read pending comments or update/delete).
 - [ ] 404 / error / offline states verified in prod.
 - [ ] Favicon / manifest / OG image present (recipe OG renders).
 - [ ] Out-of-scope (plan §21) confirmed **not** shipped: accounts/auth, public

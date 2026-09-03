@@ -84,12 +84,6 @@ describe('sortRecipes', () => {
     const out = sortRecipes([thai, salad, tacos], 'quickest');
     expect(out.map((r) => r.totalMinutes)).toEqual([15, 45, 50]);
   });
-  it('sorts by rating then newest', () => {
-    const ratings = { 'greek-quinoa-salad': 4.8, 'thai-green-curry': 4.2 };
-    const out = sortRecipes([thai, salad, tacos], 'rating', ratings);
-    expect(out[0]!.slug).toBe('greek-quinoa-salad');
-    expect(out[1]!.slug).toBe('thai-green-curry');
-  });
 });
 
 describe('resolveRecipe (fallback rule)', () => {

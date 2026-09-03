@@ -78,8 +78,7 @@
   "sort": {
     "label": "Sort by",
     "newest": "Newest",
-    "quickest": "Quickest",
-    "rating": "Highest rated"
+    "quickest": "Quickest"
   },
   "search": {
     "title": "Search recipes",
@@ -87,30 +86,6 @@
     "noResults": "No results for “{query}”",
     "noResultsHint": "Try a different term or browse all recipes.",
     "resultsFor": "Results for “{query}”"
-  },
-  "rating": {
-    "label": "Rating",
-    "average": "{avg} out of 5",
-    "count": "{count, plural, =0 {No ratings yet} one {# rating} other {# ratings}}",
-    "noRatings": "No ratings yet",
-    "rateThis": "Rate this recipe",
-    "stars": "{count, plural, one {# star} other {# stars}}",
-    "thanks": "Thanks for rating!",
-    "submitError": "Couldn't save your rating. Please try again."
-  },
-  "comments": {
-    "title": "Comments",
-    "name": "Name",
-    "namePlaceholder": "Your name",
-    "comment": "Comment",
-    "commentPlaceholder": "Share your thoughts…",
-    "submit": "Post comment",
-    "pending": "Thanks! Your comment is awaiting review.",
-    "empty": "Be the first to comment.",
-    "rateLimited": "You're commenting too quickly. Please wait a moment.",
-    "error": "Couldn't post your comment. Please try again.",
-    "nameError": "Name must be 2–50 characters.",
-    "bodyError": "Comment must be 10–2000 characters."
   },
   "footer": {
     "tagline": "Wholesome recipes from every corner of the table.",

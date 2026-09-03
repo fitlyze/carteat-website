@@ -12,7 +12,6 @@ import { buildBreadcrumbJsonLd } from '@/lib/seo/breadcrumbs-jsonld';
 import { absoluteUrl, buildMetadata } from '@/lib/seo/metadata';
 import { cuisineSchema, locales, type Locale } from '@/schemas/recipe';
 
-export const revalidate = 3600;
 // Only known cuisine×locale combos render; anything else is a real 404.
 export const dynamicParams = false;
 

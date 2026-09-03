@@ -12,7 +12,7 @@ import {
 
 import { useRecipeFilters } from './use-recipe-filters';
 
-const OPTIONS = ['newest', 'quickest', 'rating'] as const;
+const OPTIONS = ['newest', 'quickest'] as const;
 
 export function SortSelect() {
   const t = useTranslations('sort');

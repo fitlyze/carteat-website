@@ -19,5 +19,5 @@ Recipes are MDX files at `content/recipes/{locale}/{slug}.mdx`. Compiled by **Ve
 
 ## Don't
 
-- Don't change a published `slug` — it breaks URLs **and** UGC rows (ratings/comments are keyed by `recipe_slug`).
+- Don't change a published `slug` — it breaks live URLs.
 - No secrets, no raw HTML that bypasses sanitization, no freeform prose for data that belongs in structured frontmatter.

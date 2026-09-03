@@ -1,24 +1,22 @@
 # Architecture
 
-A **hybrid**: statically generated recipe pages (build-time MDX) + a thin
-serverless layer for user-generated content (ratings & comments). This keeps the
-content pipeline simple and free while still allowing live engagement.
-(Sources of truth: [plan §2](plan.md), [§7](plan.md), [§19](plan.md).)
+Fully static: every page is generated at build time from MDX. No backend, no
+database, no user-generated content — the ratings/comments layer described in
+[plan §7](plan.md) and [§18](plan.md) was removed.
+(Source of truth: [plan §2](plan.md).)
 
 ```
  MDX (content/) ──Velite+Zod──▶ typed JSON ──▶ lib/content ──▶ pages (app/)
                                                                   │
                               static HTML ──Pagefind──▶ search index
-                                                                  │
- client islands (engagement/) ─TanStack Query─▶ app/api/* ─▶ lib/db (Supabase/Upstash)
 ```
 
 ## Principles
 
 - **RSC-first.** Server Components by default; ship JS only for interactive
-  islands (search, rating, comment form, filters, theme/locale toggle, stepper).
-- **Static content, dynamic engagement.** Recipe body is fully static; only
-  ratings/comments hit the network.
+  islands (search, filters, theme/locale toggle, stepper).
+- **No runtime data.** Nothing on the page hits the network after load except
+  the lazily-imported Pagefind search index.
 - **Content as data.** MDX → Velite-validated typed objects; the UI never reads
   raw files at runtime — only via `lib/content/`.
 - **URL is state.** Filters/search/sort/locale live in the URL (shareable,
@@ -29,26 +27,22 @@ content pipeline simple and free while still allowing live engagement.
 | Dir               | Owns                                                                 |
 | ----------------- | -------------------------------------------------------------------- |
 | `content/`        | recipe MDX (git-versioned)                                           |
-| `src/app/`        | routing, pages, layouts, metadata, SEO files, API route handlers     |
-| `src/components/` | `ui/` primitives, `recipe/ discovery/ engagement/` domain, `layout/` |
-| `src/lib/`        | `content/ search/ seo/ db/ utils/` helpers                           |
+| `src/app/`        | routing, pages, layouts, metadata, SEO files                          |
+| `src/components/` | `ui/` primitives, `recipe/ discovery/` domain, `layout/`              |
+| `src/lib/`        | `content/ search/ seo/ utils/` helpers                                |
 | `src/schemas/`    | Zod schemas (single source of truth)                                 |
 | `src/i18n/`       | next-intl config + message catalogs                                  |
 | `src/styles/`     | design tokens + globals                                              |
 
-## Caching & data freshness (plan §19)
+## Caching & data freshness
 
-- Recipe page shell + body: static (SSG) via `generateStaticParams`.
-- `aggregateRating` in JSON-LD + visible star summary: fetched server-side at
-  request time (`revalidate: 3600`); hidden when `count === 0`.
-- Comments + live rating count: client-fetched (TanStack Query), always fresh.
-- On-demand `revalidateTag`/`revalidatePath` when MDX changes or a comment is
-  approved. Listing/home use ISR (`revalidate: 3600`).
+- Every route is prerendered at build time (`generateStaticParams`); there is no
+  ISR and no on-demand revalidation.
+- Content changes ship by committing MDX and rebuilding.
 
 ## Security
 
-- All UGC input validated server-side with Zod; rate-limited via Upstash by IP
-  (ratings 10/min, comments 3/min). Service-role key is server-only.
-- Comments stored as plain text, escaped on render. Comments default `pending`.
+- No user input is accepted anywhere, so there is no request-side attack
+  surface: no forms, no route handlers, no database.
 - Strict security headers (CSP, HSTS, nosniff, frame-ancestors none) in
   `next.config.mjs`.

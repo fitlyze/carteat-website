@@ -47,26 +47,10 @@ describe('buildRecipeJsonLd', () => {
     expect(jsonLd.inLanguage).toBe('es');
   });
 
-  it('omits aggregateRating when there are no ratings', () => {
+  it('never emits aggregateRating (no user ratings on the site)', () => {
     expect(buildRecipeJsonLd(recipe, { baseUrl, locale: 'en' })).not.toHaveProperty(
       'aggregateRating',
     );
-    expect(
-      buildRecipeJsonLd(recipe, { baseUrl, locale: 'en', rating: { avg: 0, count: 0 } }),
-    ).not.toHaveProperty('aggregateRating');
-  });
-
-  it('includes aggregateRating only when count > 0', () => {
-    const jsonLd = buildRecipeJsonLd(recipe, {
-      baseUrl,
-      locale: 'en',
-      rating: { avg: 4.63, count: 12 },
-    });
-    expect(jsonLd.aggregateRating).toEqual({
-      '@type': 'AggregateRating',
-      ratingValue: 4.6,
-      reviewCount: 12,
-    });
   });
 });
 

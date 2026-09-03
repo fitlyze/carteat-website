@@ -78,8 +78,7 @@
   "sort": {
     "label": "Ordenar por",
     "newest": "Más recientes",
-    "quickest": "Más rápidas",
-    "rating": "Mejor valoradas"
+    "quickest": "Más rápidas"
   },
   "search": {
     "title": "Buscar recetas",
@@ -87,30 +86,6 @@
     "noResults": "Sin resultados para «{query}»",
     "noResultsHint": "Prueba otro término o explora todas las recetas.",
     "resultsFor": "Resultados para «{query}»"
-  },
-  "rating": {
-    "label": "Valoración",
-    "average": "{avg} de 5",
-    "count": "{count, plural, =0 {Sin valoraciones todavía} one {# valoración} other {# valoraciones}}",
-    "noRatings": "Sin valoraciones todavía",
-    "rateThis": "Valora esta receta",
-    "stars": "{count, plural, one {# estrella} other {# estrellas}}",
-    "thanks": "¡Gracias por valorar!",
-    "submitError": "No se pudo guardar tu valoración. Inténtalo de nuevo."
-  },
-  "comments": {
-    "title": "Comentarios",
-    "name": "Nombre",
-    "namePlaceholder": "Tu nombre",
-    "comment": "Comentario",
-    "commentPlaceholder": "Comparte tu opinión…",
-    "submit": "Publicar comentario",
-    "pending": "¡Gracias! Tu comentario está pendiente de revisión.",
-    "empty": "Sé el primero en comentar.",
-    "rateLimited": "Estás comentando demasiado rápido. Espera un momento.",
-    "error": "No se pudo publicar tu comentario. Inténtalo de nuevo.",
-    "nameError": "El nombre debe tener entre 2 y 50 caracteres.",
-    "bodyError": "El comentario debe tener entre 10 y 2000 caracteres."
   },
   "footer": {
     "tagline": "Recetas saludables de todos los rincones de la mesa.",

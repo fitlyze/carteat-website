@@ -4,8 +4,6 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
-import { CommentsSection } from '@/components/engagement/CommentsSection';
-import { RatingControl } from '@/components/engagement/RatingControl';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { IngredientList } from '@/components/recipe/IngredientList';
 import { MDXBody } from '@/components/recipe/MDXBody';
@@ -16,7 +14,6 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Badge } from '@/components/ui/Badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import { getRecipe, getRecipeLocales, getRecipeParams, getRelated } from '@/lib/content';
-import { getRatingSummarySafe } from '@/lib/db/ratings';
 import { buildBreadcrumbJsonLd } from '@/lib/seo/breadcrumbs-jsonld';
 import { absoluteUrl, buildMetadata, SITE_URL } from '@/lib/seo/metadata';
 import { buildRecipeJsonLd } from '@/lib/seo/recipe-jsonld';
@@ -25,10 +22,6 @@ import type { Locale } from '@/schemas/recipe';
 
 // Only known recipe slugs render (incl. fallback locales); unknown → 404.
 export const dynamicParams = false;
-// ISR: the page shell is static; the rating summary is refreshed hourly so the
-// aggregateRating in JSON-LD never goes stale enough to mislead (plan §19).
-export const revalidate = 3600;
-
 export function generateStaticParams() {
   return getRecipeParams();
 }
@@ -67,18 +60,13 @@ export default async function RecipePage({
 
   const t = await getTranslations();
   const related = getRelated(recipe);
-  const summary = await getRatingSummarySafe(recipe.slug, l);
 
   const crumbs = [
     { label: t('breadcrumb.home'), href: '/' },
     { label: t('breadcrumb.recipes'), href: '/recipes' },
     { label: recipe.title },
   ];
-  const recipeJsonLd = buildRecipeJsonLd(recipe, {
-    baseUrl: SITE_URL,
-    locale: l,
-    rating: summary.count > 0 ? summary : undefined,
-  });
+  const recipeJsonLd = buildRecipeJsonLd(recipe, { baseUrl: SITE_URL, locale: l });
   const breadcrumbJsonLd = buildBreadcrumbJsonLd([
     { name: t('breadcrumb.home'), url: absoluteUrl(l, '/') },
     { name: t('breadcrumb.recipes'), url: absoluteUrl(l, '/recipes') },
@@ -122,14 +110,6 @@ export default async function RecipePage({
             ))}
           </ul>
         )}
-        <div className="mt-4">
-          <RatingControl
-            slug={recipe.slug}
-            locale={l}
-            initialAvg={summary.avg}
-            initialCount={summary.count}
-          />
-        </div>
       </header>
 
       <div className="mt-6 overflow-hidden rounded-xl">
@@ -193,8 +173,6 @@ export default async function RecipePage({
           </TabsContent>
         </Tabs>
       </div>
-
-      <CommentsSection slug={recipe.slug} locale={l} />
 
       <RelatedRecipes recipes={related} locale={l} />
     </article>

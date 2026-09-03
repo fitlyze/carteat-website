@@ -8,8 +8,6 @@ import { listCuisines, listRecipes, selectFeaturedSlides } from '@/lib/content';
 import { buildMetadata } from '@/lib/seo/metadata';
 import type { Locale } from '@/schemas/recipe';
 
-export const revalidate = 3600;
-
 export async function generateMetadata({
   params,
 }: {

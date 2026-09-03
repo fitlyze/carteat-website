@@ -1,6 +1,6 @@
 # CLAUDE.md — Health Recipe Website
 
-Production frontend for publishing health recipes (all cuisines). Greenfield **Next.js App Router** site. Content is git-versioned MDX; ratings/comments are a thin serverless layer.
+Production frontend for publishing health recipes (all cuisines). Greenfield **Next.js App Router** site. Content is git-versioned MDX. **The site is fully static — there is no backend, no database, and no user-generated content** (ratings/comments from plan §7/§18 were removed; ignore those sections).
 
 ## Read first (source of truth — these are LOCKED)
 
@@ -10,7 +10,7 @@ Production frontend for publishing health recipes (all cuisines). Greenfield **N
 
 ## Stack
 
-Next.js 15 (App Router) · React 19 · TypeScript strict · Tailwind v4 (CSS-var tokens) · Radix + shadcn pattern · Velite (MDX) · next-intl (`en` default, `es`) · Pagefind (search) · Supabase (UGC) · Upstash Ratelimit · React Hook Form + Zod · TanStack Query · Vitest/RTL + Playwright + axe. **Node 20 · pnpm 9.**
+Next.js 15 (App Router) · React 19 · TypeScript strict · Tailwind v4 (CSS-var tokens) · Radix + shadcn pattern · Velite (MDX) · next-intl (`en` default, `es`) · Pagefind (search) · Zod · Vitest/RTL + Playwright + axe. **Node 20 · pnpm 9.**
 
 ## Commands (defined in `package.json`)
 
@@ -26,12 +26,12 @@ Run `pnpm typecheck && pnpm lint && pnpm test` before declaring any task done.
 
 1. **TypeScript strict. No `any`.** Prefer inferred + Zod-derived types (`z.infer`). Shared types from `@/types`.
 2. **Path alias `@/` → `src/`.** No deep relative imports (`../../..`).
-3. **RSC-first.** Components are Server Components by default. Add `'use client'` ONLY for interactive islands (search, rating, comment form, filters, theme/locale toggle, serving stepper). Never make a page/layout client just to fetch.
+3. **RSC-first.** Components are Server Components by default. Add `'use client'` ONLY for interactive islands (search, filters, theme/locale toggle, serving stepper). Never make a page/layout client just to fetch.
 4. **Token-only styling.** Tailwind utilities backed by semantic tokens (`bg-surface text-fg border-border rounded-lg shadow-sm font-display`). **Never** hard-code hex / raw ramp steps / arbitrary colors in components. Missing value → add a token in `src/styles`, don't inline.
 5. **Env via `@/env` only.** Never read `process.env` directly. Server-only secrets are never prefixed `NEXT_PUBLIC_`.
 6. **A11y is non-negotiable (WCAG 2.1 AA):** semantic HTML, labels, focus-visible, keyboard nav, `prefers-reduced-motion`, 44px touch targets. Lean on Radix.
 7. **URL is state** for filters/search/sort/locale. No client store for shareable state (no Zustand — dropped in v1).
-8. **Validate all external input with Zod** — MDX frontmatter, API request bodies, env vars, form input.
+8. **Validate all external input with Zod** — MDX frontmatter and env vars.
 9. **Conventional Commits.** Small PRs. CI must be green: typecheck, lint, test, build, a11y, Lighthouse.
 10. **Don't add dependencies or swap locked choices** (plan §16) without explicit sign-off.
 
@@ -41,9 +41,8 @@ Run `pnpm typecheck && pnpm lint && pnpm test` before declaring any task done.
 | ----------------- | -------------------------------------------- | -------------------------- |
 | `content/`        | recipe MDX                                   | `content/CLAUDE.md`        |
 | `src/app/`        | routing, pages, layouts, metadata, SEO files | `src/app/CLAUDE.md`        |
-| `src/app/api/`    | UGC route handlers (security-critical)       | `src/app/api/CLAUDE.md`    |
 | `src/components/` | UI primitives + domain + layout              | `src/components/CLAUDE.md` |
-| `src/lib/`        | content/search/seo/db/utils helpers          | `src/lib/CLAUDE.md`        |
+| `src/lib/`        | content/search/seo/utils helpers             | `src/lib/CLAUDE.md`        |
 | `src/schemas/`    | Zod schemas (single source of truth)         | `src/schemas/CLAUDE.md`    |
 | `src/i18n/`       | locale config + message catalogs             | `src/i18n/CLAUDE.md`       |
 | `src/styles/`     | design tokens + globals                      | `src/styles/CLAUDE.md`     |
@@ -53,7 +52,6 @@ Run `pnpm typecheck && pnpm lint && pnpm test` before declaring any task done.
 
 - **Content:** MDX (`content/`) → Velite validates against `schemas/recipe.ts` → typed objects → consumed only via `lib/content/` → rendered by pages in `app/`. UI never reads MDX/files at runtime.
 - **Rendering:** pages (`app/`) compose components (`components/`), styled by tokens (`styles/`), strings from `i18n/`.
-- **UGC:** client islands (`components/engagement/`) → TanStack Query → `app/api/*` route handlers → `lib/db/` (Supabase / Upstash). **Components never touch the DB directly** — only through the API.
 - **SEO:** pages call `lib/seo/` builders for Recipe/breadcrumb JSON-LD + metadata.
 
 ## Definition of done
