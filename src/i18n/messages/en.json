@@ -1,6 +1,6 @@
 {
   "common": {
-    "brand": "Foodlyze",
+    "brand": "CartEat",
     "skipToContent": "Skip to content",
     "search": "Search",
     "viewRecipe": "View recipe",
@@ -94,7 +94,7 @@
     "social": "Social",
     "estimates": "Nutrition values are estimates.",
     "privacy": "Privacy",
-    "copyright": "© {year} Foodlyze. All rights reserved."
+    "copyright": "© {year} CartEat. All rights reserved."
   },
   "breadcrumb": {
     "label": "Breadcrumb",

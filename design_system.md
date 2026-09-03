@@ -16,7 +16,7 @@
 4. **Soft, rounded, tactile.** Medium-large radii, soft warm-tinted shadows, pill-shaped chips. Friendly, not corporate-sharp.
 5. **Calm color, loud food.** Greens/neutrals carry the UI; terracotta + photography carry the energy.
 
-**Theme name:** _Foodlyze._
+**Theme name:** _CartEat._
 
 ---
 

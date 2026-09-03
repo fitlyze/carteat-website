@@ -21,7 +21,7 @@ export default async function OgImage({
 }) {
   const { locale, slug } = await params;
   const resolved = getRecipe(slug, locale as Locale);
-  const title = resolved?.recipe.title ?? 'Foodlyze';
+  const title = resolved?.recipe.title ?? 'CartEat';
 
   return new ImageResponse(
     (
@@ -40,7 +40,7 @@ export default async function OgImage({
         <div
           style={{ display: 'flex', alignItems: 'center', color: BASIL, fontSize: 36 }}
         >
-          🌿 Foodlyze
+          🌿 CartEat
         </div>
         <div
           style={{

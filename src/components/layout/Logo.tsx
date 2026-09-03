@@ -5,7 +5,7 @@ export interface LogoProps {
 }
 
 /**
- * Foodlyze brand mark — an "F" grown as a sprout, two-tone basil leaves.
+ * CartEat brand mark — a sprout with two-tone basil leaves.
  * A standalone brand asset (mirrors `app/icon.svg`), so the literal brand hex
  * values are intentional here, same exception as `opengraph-image.tsx`. Size it
  * via `className` (e.g. `size-6`); it's decorative — the wordmark carries the label.

@@ -1,4 +1,4 @@
-# Foodlyze — Health Recipe Website
+# CartEat — Health Recipe Website
 
 Production frontend for publishing health recipes across all cuisines. Fully
 static: MDX content rendered at build time, no backend and no database.
